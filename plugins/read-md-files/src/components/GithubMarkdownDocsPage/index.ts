@@ -1,0 +1,1 @@
+export { GithubMarkdownDocsPage } from './GithubMarkdownDocsPage';

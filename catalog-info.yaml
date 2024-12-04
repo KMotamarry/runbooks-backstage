@@ -3,11 +3,14 @@ kind: Component
 metadata:
   name: runbooks-backstage
   description: An example of a Backstage application.
+  annotations:
+    # backstage.io/techdocs-ref: url:https://source.datanerd.us/kmotamarry/runbooks/blob/master
+    backstage.io/techdocs-ref: dir:.
   # Example for optional annotations
   # annotations:
   #   github.com/project-slug: backstage/backstage
   #   backstage.io/techdocs-ref: dir:.
 spec:
-  type: website
-  owner: john@example.com
+  type: documentation
+  owner: NRSP-CP
   lifecycle: experimental

@@ -42,6 +42,9 @@ integrations:
     # - host: ghe.example.net
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
+    - host: source.datanerd.us
+      apiBaseUrl: https://source.datanerd.us/api/v3
+      token: ${GITHUB_TOKEN}
 
 proxy:
   ### Example for how to add a proxy endpoint for the frontend.
@@ -56,43 +59,61 @@ proxy:
 # and an external cloud storage when deploying TechDocs for production use-case.
 # https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
 techdocs:
-  builder: 'local' # Alternatives - 'external'
+  builder: 'external' # Alternatives - 'external'
   generator:
-    runIn: 'docker' # Alternatives - 'local'
+    # runIn: local # Alternatives - 'local'
+    # techdocs: mkdocs
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+  # entities:
+  #   locations:
+  #   # - target: https://source.datanerd.us/kmotamarry/runbooks/blob/master/backstage.yaml
+  #   - target: https://source.datanerd.us/kmotamarry/runbooks/blob/master
+  #     type: url
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
-  providers:
+  # providers:
     # See https://backstage.io/docs/auth/guest/provider
-    guest: {}
+    # guest: {}
+  environment: development
+  providers:
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+        callbackUrl: http://localhost:7000/api/auth/github/handler/frame
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
+  # enabled: false
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [Component, System, API, Resource, Location, User, Group]
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
-    - type: file
-      target: ../../examples/entities.yaml
+    - type: url
+      target: https://source.datanerd.us/kmotamarry/runbooks/blob/master/backstage.yaml
+    # - type: file
+    #   target: ../../catalog-info.yaml
+    - type: url
+      target: https://source.datanerd.us/kmotamarry/nr-platform-docs/blob/gh-pages/catalog-info.yaml
 
-    # Local example template
-    - type: file
-      target: ../../examples/template/template.yaml
-      rules:
-        - allow: [Template]
+    # # Local example template
+    # - type: file
+    #   target: ../../examples/template/template.yaml
+    #   rules:
+    #     - allow: [Template]
 
-    # Local example organizational data
-    - type: file
-      target: ../../examples/org.yaml
-      rules:
-        - allow: [User, Group]
+    # # Local example organizational data
+    # - type: file
+    #   target: ../../examples/org.yaml
+    #   rules:
+    #     - allow: [User, Group]
 
     ## Uncomment these lines to add more example data
     # - type: url

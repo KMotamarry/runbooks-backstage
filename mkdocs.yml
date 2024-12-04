@@ -1,0 +1,10 @@
+site_name: My Project Documentation
+docs_site: .
+theme:
+  name: material
+nav:
+  - Home: https://source.datanerd.us/kmotamarry/runbooks/blob/master/README.md
+plugins:
+  - search
+  - same-dir
+  - techdocs-core
